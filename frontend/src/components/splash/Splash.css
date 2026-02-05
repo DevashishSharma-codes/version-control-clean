@@ -1,0 +1,232 @@
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modern-splash {
+  min-height: 87vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash-content {
+  width: 100%;
+  max-width: 730px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4.7rem 1.5rem 3.7rem 1.5rem;
+}
+.main-title.big-bold-title {
+  text-align: center;
+  font-size: 3.7rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  margin-bottom: 2.9rem;
+  line-height: 1.09;
+  color: #fff;
+}
+.big-gradient-title {
+  display: block;
+  font-size: 4.9rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #fff 20%, #dd5136 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  letter-spacing: 0.02em;
+}
+.wrap-btn-outer {
+  margin: 0.7rem 0 1.3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrap-btn-group {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 2px solid #3B3A3A;
+  background: #151515;
+  gap: 0.68rem;
+  height: 64px;
+  padding: 11px;
+  outline: none;
+  cursor: pointer;
+  transition: box-shadow 0.18s;
+  box-shadow: 0 1px 9px 0 #0001;
+}
+.wrap-btn-group:hover, .wrap-btn-group:focus {
+  box-shadow: 0 1px 24px 0 #ff3f1730;
+}
+.wrap-btn-inner-main {
+  border: 1.6px solid #3B3A3A;
+  background: #ff3f17;
+  height: 43px;
+  min-width: 156px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #fff;
+  transition: background 0.13s, box-shadow 0.19s, border 0.15s;
+  font-size: 1.19rem;
+  font-weight: 600;
+  gap: 0.33rem;
+}
+.wrap-btn-group:hover .wrap-btn-inner-main {
+  background: #fe7500;
+  border-color: #fe7500;
+}
+.wrap-btn-label {
+  font-weight: 400;
+  margin: 0 0.5rem 0 0.2rem;
+  font-size: 1.12em;
+}
+.wrap-btn-arrow {
+  color: #3b3a3a;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 2px solid #3b3a3a;
+  width: 34px;
+  height: 34px;
+  transition: margin-left 0.18s;
+}
+.wrap-btn-group:hover .wrap-btn-arrow {
+  margin-left: 2rem;
+}
+.arrow-icon {
+  transition: transform 0.25s;
+}
+.wrap-btn-group:hover .arrow-icon {
+  transform: rotate(45deg);
+}
+.mx-2 {
+  margin-right: 0.4em;
+  margin-left: 0.3em;
+}
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.splash-arrows {
+  color: #ff3f17;
+  font-size: 2rem;
+  margin-bottom: 1.0rem;
+  opacity: 0.55;
+  line-height: 1.2;
+  text-align: center;
+}
+.splash-caption {
+  color: #fafafc;
+  font-size: 1.08rem;
+  opacity: 0.86;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+.splash-caption b {
+  color: #ff3f17;
+  font-weight: 600;
+}
+
+/* Footer ticker styles */
+.footer-scroll-stack {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  z-index: 100;
+  padding: 0.25em 0;
+  pointer-events: none;
+}
+
+.text-scroll-effect {
+  width: 100vw;
+  overflow: hidden;
+}
+
+.text-scroll-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: textscroll 20s linear infinite;
+  min-width: 200%;
+}
+
+@keyframes textscroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-arrow-icon {
+  filter: drop-shadow(0 0 2px #ff3f17cc);
+  color: #ff3f17;
+  transition: color 0.2s;
+}
+
+.text-scroll-gradient {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: transparent; /* No direct color here, using background clip? */
+
+  background: linear-gradient(12deg, #ffffff 20%, #f1f1f1 65%, #fff 98%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: 1rem;
+}
+
+@media (max-width: 800px) {
+  .text-scroll-gradient {
+    font-size: 1.2rem;
+  }
+  .scroll-arrow-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-scroll-stack {
+    font-size: 1rem;
+    padding: 0.15em 0 0.2em 0;
+  }
+}
+/* Add this to the end of your splash.css file */
+
+.cursor-trail-container {
+  /* This makes the container take up the full screen, behind the footer */
+  width: 100%;
+  height: 100vh; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+/* Add this to the end of your splash.css file */
+
+.tech-trail-image {
+  width: 72px;  /* Defines the size of the trailing images */
+  height: 72px;
+  padding: 8px; /* Adds some space around the icon */
+  background-color: rgba(30, 30, 30, 0.5); /* Dark, semi-transparent background */
+  backdrop-filter: blur(4px);
+}

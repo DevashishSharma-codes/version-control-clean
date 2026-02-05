@@ -1,0 +1,34 @@
+.image-cursor-trail-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Important to contain the images */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allows clicks to pass through */
+}
+
+.trail-image {
+  position: absolute;
+  top: -200px; /* Start off-screen */
+  left: -200px;
+  border-radius: 1.5rem; /* 24px */
+  object-fit: cover;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.8;
+}
+
+.content-container {
+  position: relative;
+  z-index: 50; /* Ensures content is above the trail images */
+}

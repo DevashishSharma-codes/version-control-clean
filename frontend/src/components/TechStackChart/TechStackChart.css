@@ -1,0 +1,79 @@
+.tech-stack-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tech-chart-container {
+  height: 150px; /* Adjust height as needed */
+  position: relative;
+  margin: 0 auto;
+}
+
+.tech-resources-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #2c2c2c; /* Slightly lighter than panel background */
+  border-radius: 6px;
+  border: 1px solid #3a3a3a;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.tech-item:hover {
+    border-color: #555;
+}
+
+.tech-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.tech-name {
+  font-weight: 500;
+  font-size: 14px;
+  flex-grow: 1;
+  color: #ddd;
+}
+
+.tech-resource-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--orange, #FF3F17);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.tech-item:hover .tech-resource-link {
+  transform: translateX(0);
+}
+
+.muted-small {
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+    padding: 20px 10px;
+}

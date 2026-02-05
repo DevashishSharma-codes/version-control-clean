@@ -1,0 +1,214 @@
+/* Basic Reset & Global Styles from hello-elementor theme */
+:root {
+  --wp--preset--color--black: #000000;
+  --wp--preset--color--cyan-bluish-gray: #abb8c3;
+  --wp--preset--color--white: #ffffff;
+  --wp--preset--font-size--small: 13px;
+  --wp--preset--font-size--medium: 20px;
+  --wp--preset--font-size--large: 36px;
+  --wp--preset--font-size--x-large: 42px;
+  --wp--style--global--content-size: 800px;
+  --wp--style--global--wide-size: 1200px;
+  --wp--style--block-gap: 24px;
+}
+
+body {
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Page specific styles from Elementor */
+.elementor-1679 {
+  --display: flex;
+  --flex-direction: column;
+  --container-widget-width: 100%;
+  --container-widget-height: 100%;
+  --container-widget-flex-grow: 1;
+  --container-widget-align-self: stretch;
+  --background-transition: 0.3s;
+}
+
+/* Header logo */
+.elementor-element-cf1a57c {
+  --display: flex;
+  --background-transition: 0.3s;
+  --padding-top: 40px;
+  --padding-right: 0px;
+  --padding-bottom: 0px;
+  --padding-left: 0px;
+}
+
+/* Hero Section */
+.elementor-element-8dab5ad {
+  --display: flex;
+  --min-height: 100vh;
+  --background-color: #000000;
+  --background-image: url("https://coduck.es/wp-content/uploads/2024/07/Group-1.svg");
+  --background-position: top center;
+  --background-repeat: no-repeat;
+  --background-size: cover;
+  --background-transition: 0.3s;
+  --padding-top: 0px;
+  --padding-right: 50px;
+  --padding-bottom: 0px;
+  --padding-left: 50px;
+}
+.elementor-element-1d13349 {
+  --display: flex;
+  --flex-direction: column;
+  --justify-content: center;
+  --align-items: center;
+}
+.elementor-element-b2e9ae3 {
+  text-align: center;
+  color: #FFFFFF;
+  font-family: "Space Grotesk", Sans-serif;
+  font-size: 70px;
+  font-weight: bold;
+}
+.elementor-element-ddc5967 {
+  text-align: center;
+  color: #FFFFFF;
+  font-family: "Space Grotesk", Sans-serif;
+  font-size: 50px;
+  font-weight: 100;
+}
+.elementor-element-d3572a5 {
+  color: #FFFFFF;
+  font-family: "Space Grotesk", Sans-serif;
+  font-size: 18px;
+  font-weight: 100;
+  text-align: center;
+}
+.color2 {
+  background: linear-gradient(90deg, #01E477 0%, #FFE01B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Button Styles */
+.elementor-button {
+  font-family: "Space Grotesk", Sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #01E477;
+  border-radius: 50px;
+  padding: 15px 35px;
+  color: #000;
+  fill: #000;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  transition: .3s ease;
+}
+.elementor-button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* General Container & Widget Styles */
+.e-con {
+  display: flex;
+}
+.e-con-inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1140px; /* Example width, adjust as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.elementor-widget-container {
+  transition: background .3s, border .3s, border-radius .3s, box-shadow .3s, transform .4s;
+}
+.elementor-widget-heading {
+  margin: 0;
+}
+
+/* Companies Carousel Section */
+.elementor-element-3100122 {
+    --display: flex;
+    --flex-direction: column;
+    --justify-content: center;
+    --align-items: center;
+    --background-color: #000000;
+    --background-transition: 0.3s;
+    --padding-top: 50px;
+    --padding-bottom: 50px;
+}
+.elementor-element-f9eb292 .swiper-slide {
+  text-align: center;
+}
+.elementor-image-carousel-wrapper.swiper {
+  display: flex;
+  align-items: center;
+}
+
+.elementor-image-carousel {
+  display: flex;
+  gap: 45px; /* Spacing between logos */
+  overflow: hidden; /* Hide overflowing logos */
+  width: 100%;
+}
+.elementor-image-carousel .swiper-slide {
+  flex-shrink: 0;
+}
+.swiper-slide-image {
+  max-height: 40px; /* Adjust as needed */
+  width: auto;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.swiper-slide-image:hover {
+  opacity: 1;
+}
+
+/* Animations */
+.elementor-invisible {
+  visibility: hidden;
+}
+
+/* You would typically use a library to add these classes on scroll */
+.animated-fast {
+  animation-duration: 1.3s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 767px) {
+  .elementor-element-b2e9ae3 {
+    font-size: 40px;
+  }
+  .elementor-element-ddc5967 {
+    font-size: 30px;
+  }
+  .elementor-hidden-mobile {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+    .elementor-hidden-desktop {
+        display: none;
+    }
+    .elementor-hidden-tablet {
+        display: none;
+    }
+}

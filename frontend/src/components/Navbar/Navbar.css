@@ -1,0 +1,129 @@
+/* Base Navbar */
+.pro-navbar.dark-navbar {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Subtle bottom border */
+  position: relative;
+  z-index: 1000;
+}
+
+/* Logo Area */
+.navbar-logo-area {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.navbar-logo-img {
+  height: 32px;
+  margin-right: 10px;
+  filter: invert(100%); /* Invert GitHub logo for dark bg */
+}
+
+/* Link & Button Group */
+.navbar-link-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Shared Button Styles */
+.wrap-btn-group,
+.navbar-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect - subtle, professional */
+.wrap-btn-group:hover,
+.navbar-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Active effect (click feedback) */
+.wrap-btn-group:active,
+.navbar-profile-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
+}
+
+
+.wrap-btn-label-nav {
+  font-weight: 500;
+  margin: 0 0.5rem 0 0.2rem;
+  font-size: 1.0em;
+}
+
+
+/* Responsive Menu Toggle for Mobile */
+.navbar-menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.navbar-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hide the link group initially on small screens */
+@media (max-width: 768px) {
+  .navbar-link-group {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #121212;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    padding: 10px 16px;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 160px;
+  }
+  /* Show toggle button */
+  .navbar-menu-toggle {
+    display: flex;
+  }
+  /* Show menu when active */
+  .navbar-link-group.active {
+    display: flex;
+  }
+}
+
+/* Optional: animate the menu toggle button (hamburger to X) */
+.navbar-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}

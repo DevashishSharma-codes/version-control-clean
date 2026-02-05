@@ -1,0 +1,137 @@
+.profile-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+  margin: 2rem auto 0 auto;
+  max-width: 1100px; /* <-- INCREASE THIS FROM 1050px to 1100px */
+  width: 100%;
+  padding: 0 1rem;
+}
+/* Tab Navigation */
+.profile-tab-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.3rem;
+  margin: 1.3rem 1rem 2.2rem 1rem;
+  background: none;
+  flex-wrap: wrap;
+}
+
+.profile-tab-btn {
+  background: none;
+  color: #ff3f17;
+  border: none;
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-bottom: 3px solid transparent;
+  padding: 0.8rem 1.5rem 0.6rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.16s, color 0.16s;
+  outline: none;
+  border-radius: 0;
+  white-space: nowrap;
+  min-width: 120px;
+  text-align: center;
+}
+.profile-tab-btn.active,
+.profile-tab-btn:focus,
+.profile-tab-btn:hover {
+  border-bottom: 3px solid #ff3f17;
+  color: #fff;
+}
+
+/* --- MODIFIED SECTION STARTS HERE --- */
+
+/* Profile Content Layout */
+.profile-page-wrapper {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;    /* Center the stacked items */
+  gap: 2.2rem;
+  margin: 2rem auto 0 auto;
+  max-width: 1050px;
+  width: 100%;
+  padding: 0 1rem; /* Add some side padding */
+}
+
+.glass-card {
+  background: rgba(28, 28, 32, 0.93);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 22px #18181821;
+  border: 1.5px solid #232326;
+  padding: 2.2rem 2rem;
+}
+
+/* User Profile Card */
+.user-profile-section {
+  width: 100%; /* Make card take full width of parent */
+  max-width: 700px; /* Optional: prevent it from being too wide */
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Heatmap Card */
+.heat-map-section {
+  width: 100%;
+  min-width: 260px;
+  /* We define the height in the component now, so this can be simple */
+}
+
+/* --- MODIFIED SECTION ENDS HERE --- */
+
+
+.profile-image {
+  width: 110px;
+  height: 110px;
+  background: #232326;
+  border-radius: 50%;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.profile-logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px #191a2232;
+}
+
+.name h2 {
+  margin: 0.7rem 0 0.6rem 0;
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: #ff3f17;
+}
+
+.follower-stats {
+  display: flex;
+  gap: 0.6em;
+  color: #b5b5be;
+  font-weight: 500;
+  margin-top: 1.2rem;
+  font-size: 1.07rem;
+}
+
+/* Responsive adjustments are now handled by the main styles */
+@media (max-width: 480px) {
+  .name h2 {
+    font-size: 1.4rem;
+  }
+  .profile-logo-img {
+    width: 55px;
+    height: 55px;
+  }
+  .profile-image {
+    width: 70px;
+    height: 70px;
+  }
+}

@@ -1,0 +1,76 @@
+/* CreateRepoForm.css */
+
+.create-repo-form-wrapper {
+  background: #0a0a0a; /* deep black background */
+  color: #f5f5f5;
+  padding: 2rem;
+  border: 1px solid #222; /* subtle border */
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.create-repo-form-wrapper h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #fff;
+  border-bottom: 1px solid #222;
+  padding-bottom: 0.5rem;
+}
+
+.create-repo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.create-repo-form label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  color: #ccc;
+}
+
+.create-repo-form input,
+.create-repo-form textarea,
+.create-repo-form select {
+  background: #111;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-repo-form input:focus,
+.create-repo-form textarea:focus,
+.create-repo-form select:focus {
+  border-color: #555;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.15);
+}
+
+.create-repo-form button {
+  background: #111;
+  color: #f5f5f5;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.create-repo-form button:hover:not(:disabled) {
+  background: #000;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+.create-repo-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

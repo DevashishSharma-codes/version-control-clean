@@ -1,0 +1,305 @@
+/* --- NEW STYLES TO FIX THE LAYERING --- */
+.repo-details-container {
+  position: relative; /* This is the key: it creates a stacking context */
+  background-color: #000;
+  overflow: hidden; /* Prevents scrollbars from the SVG */
+}
+
+.background-svg-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Puts the SVG in the background layer */
+}
+
+/* --- MODIFIED ORIGINAL CLASS --- */
+.repo-details-wrapper {
+  position: relative; /* Required to respect the z-index */
+  z-index: 1; /* Puts the content layer ON TOP of the background */
+
+  /* The rest of your original styles remain here */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  color: #e2e8f0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+
+/* --- ALL YOUR OTHER ORIGINAL STYLES GO BELOW --- */
+
+.image-ripple-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* --- Wrapper for the main content (file list & info card) --- */
+.page-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  width: 100%;
+}
+
+.repo-files-section {
+  flex: 3;
+  min-width: 320px;
+}
+
+/* ... and so on, the rest of your CSS file is unchanged. */
+.repo-info-card {
+  flex: 1;
+  min-width: 300px;
+  /* Lowered the opacity from 0.801 to 0.15 for a stronger glass effect */
+  background: rgba(104, 101, 101, 0.15); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(134, 134, 134, 0.116);
+  height: fit-content;
+}
+
+/* --- Headings --- */
+.files-heading {
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: -2.5px;
+  color: #ffffff;
+}
+
+.repo-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 16px;
+}
+
+.repo-description,
+.repo-owner {
+  color: #e2e8f0;
+  margin-bottom: 16px;
+}
+
+.repo-owner strong {
+  color: #7dd3fc;
+}
+
+/* --- Interactive File Card (Glassmorphism) --- */
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.file-card-interactive {
+  --glow-color: rgba(252, 44, 8, 0.5);
+  position: relative;
+  background: linear-gradient(135deg, rgba(121, 116, 116, 0.527), rgba(19, 11, 11, 0.548));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 24px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  animation: subtle-float 6s ease-in-out infinite;
+}
+
+@keyframes subtle-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.file-card-interactive::before {
+  content: "";
+  position: absolute;
+  left: var(--mouse-x);
+  top: var(--mouse-y);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 60%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.file-card-interactive:hover::before {
+  opacity: 1;
+}
+
+/* --- Card Internals & Other Styles --- */
+.card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.file-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.review-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.review-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.chevron-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.review-details-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+}
+
+.file-card-interactive.expanded .review-details-container {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 20px;
+}
+
+.review-card-inner {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 20px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.review-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+.review-body {
+  color: #e2e8f0;
+}
+
+.review-point {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+
+.review-point::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #f9b379;
+  font-weight: bold;
+}
+
+.file-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn {
+  flex-grow: 1;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.view-btn {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.view-btn:hover {
+  background-color: #ff381e;
+}
+
+.download-btn {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.download-btn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loading,
+.error,
+.no-files {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  text-align: center;
+  padding: 40px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

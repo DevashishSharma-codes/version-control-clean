@@ -1,0 +1,241 @@
+/* Main Page Layout */
+.agent-page-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text, #e7e9ee);
+}
+
+.agent-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.agent-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.agent-header p {
+  font-size: 16px;
+  color: var(--muted, #9aa0aa);
+}
+
+/* AI Input Box Styling */
+.agent-input-wrapper {
+  border: 1px solid #333;
+  border-radius: 22px;
+  padding: 6px;
+  background: linear-gradient(to bottom, #1a1a1a, #111);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.agent-input-wrapper:has(.agent-textarea:focus) {
+  border-color: rgba(255, 63, 23, 0.5);
+  box-shadow: 0 0 15px rgba(255, 63, 23, 0.2);
+}
+
+.agent-input-main {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid #2a2a2a;
+  background: #1c1c1c;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-container {
+  overflow-y: auto;
+  position: relative;
+}
+
+.agent-textarea {
+  width: 100%;
+  padding: 16px 56px 16px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text, #e7e9ee);
+  resize: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  outline: none;
+  box-shadow: none;
+  caret-color: var(--orange, #FF3F17);
+}
+
+.agent-textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.placeholder-text {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  pointer-events: none;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.placeholder-icon {
+  flex-shrink: 0;
+}
+
+.input-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+  min-height: 52px;
+}
+
+.send-button {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: #888;
+  transition: background-color 0.2s, color 0.2s, transform 0.15s ease;
+}
+
+.send-button:not(:disabled) {
+  background-color: var(--orange, #FF3F17);
+  color: white;
+}
+
+.send-button:disabled {
+  cursor: not-allowed;
+}
+
+.send-button:not(:disabled):hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+.send-button:not(:disabled):active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+/* Results & Error Styling */
+.agent-results-container {
+  margin-top: 32px;
+}
+
+.result-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.error-card {
+  background-color: rgba(255, 63, 23, 0.1);
+  border-color: rgba(255, 63, 23, 0.4);
+  color: #ffae9c;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+
+/* --- NEW & IMPROVED MARKDOWN STYLES --- */
+
+.review-output-formatted {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #ccc;
+}
+
+/* Headings (e.g., ### Code Review) */
+.review-output-formatted h3 {
+  font-size: 1.4em; /* Larger */
+  margin-bottom: 20px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #333;
+  color: var(--orange, #FF3F17); /* Themed color */
+  font-weight: 700; /* Bolder */
+  letter-spacing: 0.5px;
+  text-transform: uppercase; /* ALL CAPS for title effect */
+}
+
+/* Bold text */
+.review-output-formatted strong {
+  color: #fff; /* Make bolded text white for contrast */
+  font-weight: 600;
+}
+
+/* Bullet points */
+.review-output-formatted ul {
+  padding-left: 24px;
+  margin: 20px 0;
+  list-style-type: '→ '; /* Custom bullet */
+}
+
+.review-output-formatted li {
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+/* Inline code snippets `like this` */
+.review-output-formatted code {
+  background-color: #2c2c2c;
+  color: #ffae9c;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  border: 1px solid #444;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* --- NEW: Blockquote for highlighted tips --- */
+.review-output-formatted blockquote {
+  margin: 20px 0;
+  padding: 15px 20px;
+  background-color: rgba(91, 48, 155, 0.1); /* Purple tint from your theme */
+  border-left: 4px solid var(--purple, #5B309B);
+  border-radius: 0 8px 8px 0;
+  color: #d9c8f5; /* Lighter purple text */
+}
+
+.review-output-formatted blockquote p {
+  margin: 0;
+}
+
+/* Spinner & Keyframe Animations */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,19 @@
+@keyframes bubbly {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, 10px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(10px, -15px) scale(1.05);
+  }
+}
+
+/* Utility class for animation */
+.animate-[bubbly_20s_linear_infinite] {
+  animation: bubbly 20s linear infinite;
+}
