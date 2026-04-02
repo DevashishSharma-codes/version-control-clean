@@ -46,7 +46,7 @@ export default function Login() {
     e.preventDefault();
     if (validate()) {
       try {
-        const res = await axios.post('http://localhost:3000/login', {
+        const res = await axios.post('https://version-control-backend-ssgn.onrender.com/login', {
           email: email,
           password: password,
         });
@@ -55,7 +55,7 @@ export default function Login() {
           localStorage.setItem('userId', res.data.userId);
           localStorage.setItem("username", res.data.username);
           setCurrentUser({ _id: res.data.userId });
-          navigate('/'); 
+          navigate('/');
         } else {
           setErrors({ api: "Login failed: Incomplete response from server." });
         }
@@ -77,11 +77,11 @@ export default function Login() {
           <a href="#" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
             {/* Modern cosmic logo SVG */}
             <span style={{ display: 'inline-block', width: '2.3rem', height: '2.3rem' }}>
-             <img
-          src="https://cdn-icons-png.flaticon.com/128/41/41993.png"
-          alt="GitHub Logo"
-          className="navbar-logo-img"
-        />
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/41/41993.png"
+                alt="GitHub Logo"
+                className="navbar-logo-img"
+              />
             </span>
             <span style={{
               fontSize: '2rem',

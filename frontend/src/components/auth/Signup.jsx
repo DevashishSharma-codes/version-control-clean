@@ -15,7 +15,7 @@ export default function Signup() {
 
   // Validation states
   const [username, setUsername] = useState('');
-  const [email, setEmail]     = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
@@ -52,7 +52,7 @@ export default function Signup() {
     e.preventDefault();
     if (validate()) {
       try {
-        const res = await axios.post("http://localhost:3000/signup", {
+        const res = await axios.post("https://version-control-backend-ssgn.onrender.com/signup", {
           username: username,
           email: email,
           password: password,

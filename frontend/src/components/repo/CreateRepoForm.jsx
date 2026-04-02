@@ -9,7 +9,7 @@ const CreateRepoForm = () => {
   const [files, setFiles] = useState([]);
   const [visibility, setVisibility] = useState(true);
   const [loading, setLoading] = useState(false);
-  
+
   const { currentUser } = useAuth(); // 2. Get the current user from context
   const navigate = useNavigate();
 
@@ -39,9 +39,9 @@ const CreateRepoForm = () => {
       alert("Repository name and at least one file are required.");
       return;
     }
-    
+
     // 3. Check for the currentUser._id from context
-    if (!currentUser?._id) { 
+    if (!currentUser?._id) {
       alert("User not found. Please log in again.");
       return;
     }
@@ -52,13 +52,13 @@ const CreateRepoForm = () => {
       formData.append("name", name.trim());
       formData.append("description", description);
       formData.append("visibility", visibility);
-      
+
       // 4. Append the correct ID
-      formData.append("owner", currentUser._id); 
-      
+      formData.append("owner", currentUser._id);
+
       files.forEach(file => formData.append("files", file));
 
-      const res = await fetch("http://localhost:3000/repo/create", {
+      const res = await fetch("https://version-control-backend-ssgn.onrender.com/repo/create", {
         method: "POST",
         body: formData,
       });

@@ -20,18 +20,18 @@ const Profile = () => {
     const fetchContributions = async () => {
       try {
         if (!currentUser?._id) return;
-        
+
         // Use currentUser._id directly since it's an object now
         const [contribRes, profileRes] = await Promise.all([
-          axios.get(`http://localhost:3000/repo/contributions/${currentUser._id}`),
-          axios.get(`http://localhost:3000/userProfile/${currentUser._id}`)
+          axios.get(`https://version-control-backend-ssgn.onrender.com/repo/contributions/${currentUser._id}`),
+          axios.get(`https://version-control-backend-ssgn.onrender.com/userProfile/${currentUser._id}`)
         ]);
-        
+
         console.log("Fetched contributions response:", contribRes.data);
 
         // ✅ FIX: The API now returns a direct array.
         // Use `res.data || []` to ensure we always have an array.
-        setContributions(contribRes.data || []); 
+        setContributions(contribRes.data || []);
         setStarRepos(profileRes.data?.starRepos || []);
 
       } catch (err) {
@@ -51,9 +51,9 @@ const Profile = () => {
       <Navbar />
       <div className="profile-tab-nav">
         {/* ... buttons ... */}
-        <button 
-          className={`profile-tab-btn ${activeTab === 'overview' ? 'active' : ''}`} 
-          type="button" 
+        <button
+          className={`profile-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+          type="button"
           onClick={() => setActiveTab('overview')}
         >
           Overview

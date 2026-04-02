@@ -14,7 +14,7 @@ export default defineConfig({
       },
       // --- ADD THIS NEW PROXY FOR YOUR BACKEND ---
       '/repo': {
-        target: 'http://localhost:3000', // Or your backend's port
+        target: 'https://version-control-backend-ssgn.onrender.com', // Or your backend's port
         changeOrigin: true,
       }
     }

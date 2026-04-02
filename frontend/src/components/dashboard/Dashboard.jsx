@@ -177,7 +177,7 @@ export default function Dashboard() {
     async function fetchUserRepos() {
       setLoadingRepos(true);
       try {
-        const res = await fetch(`http://localhost:3000/repo/user/${userId}`);
+        const res = await fetch(`https://version-control-backend-ssgn.onrender.com/repo/user/${userId}`);
         const data = await res.json();
 
         const list = data?.repositories || [];
@@ -192,7 +192,7 @@ export default function Dashboard() {
     async function fetchGlobalRepos() {
       setLoadingGlobals(true);
       try {
-        const res = await fetch(`http://localhost:3000/repo/all`);
+        const res = await fetch(`https://version-control-backend-ssgn.onrender.com/repo/all`);
         const data = await res.json();
         const list = Array.isArray(data) ? data : [];
         setGlobalRepositories(list);
@@ -418,7 +418,7 @@ export default function Dashboard() {
                 </div>
               ) : repositories.length ? (
                 repositories.slice(0, 12).map((repo) => (
-                 <button
+                  <button
                     type="button"
                     className="row-card"
                     key={repo._id || repo.id}
@@ -443,118 +443,118 @@ export default function Dashboard() {
             </div>
           </section>
         </div>
-        
+
         {/* NEW Full-width grid for the bottom sections */}
         <section className="dashboard-grid">
-            {/* Column 1: Tech Chart */}
-            <div className="panel">
-  <TechStackChart 
-    repos={globalRepositories} 
-    title="Global Tech Distribution" 
-  />
-</div>
+          {/* Column 1: Tech Chart */}
+          <div className="panel">
+            <TechStackChart
+              repos={globalRepositories}
+              title="Global Tech Distribution"
+            />
+          </div>
 
-            {/* Column 2: Blogs and Events */}
-            <aside className="panel panel-rail">
-              <div className="stack">
-                <div className="panel-sub">
-                  <div className="panel-head tight">
-                    <h4 className="panel-title">Blogs</h4>
-                  </div>
-                  <div className="rail-list">
-                    {loadingBlogs ? (
-                      [...Array(4)].map((_, i) => (
-                        <div key={i} className="rail-item skeleton" />
-                      ))
-                    ) : blogs.length ? (
-                      blogs.map((a) => (
-                        <a
-                          className="rail-item"
-                          key={a.id}
-                          href={a.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          title={a.title}
-                        >
-                          <div className="rail-title">{a.title}</div>
-                          <div className="rail-meta">
-                            {a.readable_publish_date ||
-                              a.published_at?.slice(0, 10)}
-                            <span className="dot" />
-                            {a.tag_list?.slice(0, 2).map((t) => `#${t}`).join(" ")}
-                          </div>
-                        </a>
-                      ))
-                    ) : (
-                      <div className="muted">
-                        {blogsError || "No blogs available right now."}
-                      </div>
-                    )}
-                  </div>
+          {/* Column 2: Blogs and Events */}
+          <aside className="panel panel-rail">
+            <div className="stack">
+              <div className="panel-sub">
+                <div className="panel-head tight">
+                  <h4 className="panel-title">Blogs</h4>
                 </div>
-
-                <div className="panel-sub">
-                  <div className="panel-head tight">
-                    <h4 className="panel-title">Events</h4>
-                  </div>
-                  <div className="rail-list">
-                    {loadingEvents ? (
-                      [...Array(4)].map((_, i) => (
-                        <div key={i} className="rail-item skeleton" />
-                      ))
-                    ) : events.length ? (
-                      events.map((a) => (
-                        <a
-                          className="rail-item"
-                          key={a.id}
-                          href={a.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          title={a.title}
-                        >
-                          <div className="rail-title">{a.title}</div>
-                          <div className="rail-meta">
-                            {a.readable_publish_date ||
-                              a.published_at?.slice(0, 10)}
-                            <span className="dot" />
-                            {a.tag_list?.slice(0, 2).map((t) => `#${t}`).join(" ")}
-                          </div>
-                        </a>
-                      ))
-                    ) : (
-                      <div className="muted">
-                        {eventsError || "No events available right now."}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Fallback block */}
-                {!loadingBlogs &&
-                  !loadingEvents &&
-                  blogs.length === 0 &&
-                  events.length === 0 && (
-                    <div className="panel-sub">
-                      <div className="panel-head tight">
-                        <h4 className="panel-title small">News</h4>
-                      </div>
-                      <div className="rail-list">
-                        {fallbackNews.map((n) => (
-                          <div className="rail-item" key={n.id}>
-                            <div className="rail-title">{n.title}</div>
-                            <div className="rail-meta">
-                              {n.type}
-                              <span className="dot" />
-                              {n.meta}
-                            </div>
-                            <div className="rail-desc">{n.description}</div>
-                          </div>
-                        ))}
-                      </div>
+                <div className="rail-list">
+                  {loadingBlogs ? (
+                    [...Array(4)].map((_, i) => (
+                      <div key={i} className="rail-item skeleton" />
+                    ))
+                  ) : blogs.length ? (
+                    blogs.map((a) => (
+                      <a
+                        className="rail-item"
+                        key={a.id}
+                        href={a.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={a.title}
+                      >
+                        <div className="rail-title">{a.title}</div>
+                        <div className="rail-meta">
+                          {a.readable_publish_date ||
+                            a.published_at?.slice(0, 10)}
+                          <span className="dot" />
+                          {a.tag_list?.slice(0, 2).map((t) => `#${t}`).join(" ")}
+                        </div>
+                      </a>
+                    ))
+                  ) : (
+                    <div className="muted">
+                      {blogsError || "No blogs available right now."}
                     </div>
                   )}
+                </div>
               </div>
-            </aside>
+
+              <div className="panel-sub">
+                <div className="panel-head tight">
+                  <h4 className="panel-title">Events</h4>
+                </div>
+                <div className="rail-list">
+                  {loadingEvents ? (
+                    [...Array(4)].map((_, i) => (
+                      <div key={i} className="rail-item skeleton" />
+                    ))
+                  ) : events.length ? (
+                    events.map((a) => (
+                      <a
+                        className="rail-item"
+                        key={a.id}
+                        href={a.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={a.title}
+                      >
+                        <div className="rail-title">{a.title}</div>
+                        <div className="rail-meta">
+                          {a.readable_publish_date ||
+                            a.published_at?.slice(0, 10)}
+                          <span className="dot" />
+                          {a.tag_list?.slice(0, 2).map((t) => `#${t}`).join(" ")}
+                        </div>
+                      </a>
+                    ))
+                  ) : (
+                    <div className="muted">
+                      {eventsError || "No events available right now."}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Fallback block */}
+              {!loadingBlogs &&
+                !loadingEvents &&
+                blogs.length === 0 &&
+                events.length === 0 && (
+                  <div className="panel-sub">
+                    <div className="panel-head tight">
+                      <h4 className="panel-title small">News</h4>
+                    </div>
+                    <div className="rail-list">
+                      {fallbackNews.map((n) => (
+                        <div className="rail-item" key={n.id}>
+                          <div className="rail-title">{n.title}</div>
+                          <div className="rail-meta">
+                            {n.type}
+                            <span className="dot" />
+                            {n.meta}
+                          </div>
+                          <div className="rail-desc">{n.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          </aside>
         </section>
       </section>
     </>
