@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Globe, ArrowRight } from "lucide-react";
-import "./splash.css";
+import "./Splash.css";
 
 // 1. Import the new component
-import ImageCursorTrail from "../ImageCursorTrail/ImageCursorTrail"; 
+import ImageCursorTrail from "../ImageCursorTrail/ImageCursorTrail";
 
 // 2. Create the array of tech stack images
 const techImages = [

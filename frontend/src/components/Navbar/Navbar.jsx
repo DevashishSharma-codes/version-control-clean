@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 // 1. Import the new icon
 import { ArrowRight, Plus, LogOut, User, Bot } from "lucide-react";
 import { useAuth } from "../../authContext";
-import "./navbar.css";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -54,13 +54,13 @@ const Navbar = () => {
 
         {/* 3. Add the new AI Code Review button here */}
         <button className="wrap-btn-group navbar-action-btn" onClick={navigateToCodeReview}>
-            <span className="wrap-btn-inner-main">
-               
-                <span className="wrap-btn-label-nav">Review Your Code</span>
-            </span>
-            <span className="wrap-btn-arrow">
-                <ArrowRight size={18} className="arrow-icon" />
-            </span>
+          <span className="wrap-btn-inner-main">
+
+            <span className="wrap-btn-label-nav">Review Your Code</span>
+          </span>
+          <span className="wrap-btn-arrow">
+            <ArrowRight size={18} className="arrow-icon" />
+          </span>
         </button>
 
 

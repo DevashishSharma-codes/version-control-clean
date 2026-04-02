@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./profile.css";
+import "./Profile.css";
 import Navbar from "../Navbar/Navbar";
 import HeatMapProfile from "./HeatMapProfile";
 import { useAuth } from "../../authContext";
