@@ -68,7 +68,8 @@ const CreateRepoForm = () => {
         alert("Repository created successfully!");
         navigate(`/repo/${data.repositoryID}`);
       } else {
-        alert("Failed to create repository!");
+        const errorData = await res.json().catch(() => ({}));
+        alert(`Failed to create repository! ${errorData.error || ""}`);
       }
     } catch (err) {
       alert("An error occurred while creating repository.");

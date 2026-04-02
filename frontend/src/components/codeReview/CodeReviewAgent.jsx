@@ -105,7 +105,7 @@ export default function CodeReviewAgent() {
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     
     // The API URL now points to our local Vite proxy
-    const apiUrl = `/gemini/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+    const apiUrl = `/gemini/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
         const response = await fetch(apiUrl, {

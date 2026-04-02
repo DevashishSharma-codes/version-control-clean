@@ -93,7 +93,7 @@ async function getUserProfile(req, res) {
   }
 
   try {
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).populate("starRepos").select("-password");
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -159,6 +159,37 @@ async function deleteUserProfile(req, res) {
   }
 }
 
+// Toggle star repository
+async function toggleStar(req, res) {
+  const userId = req.params.id;
+  const { repoId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(repoId)) {
+    return res.status(400).json({ message: "Invalid User or Repository ID" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const isStarred = user.starRepos.includes(repoId);
+
+    if (isStarred) {
+      user.starRepos.pull(repoId);
+    } else {
+      user.starRepos.push(repoId);
+    }
+
+    await user.save();
+    return res.json({ message: isStarred ? "Repository unstarred!" : "Repository starred!", starRepos: user.starRepos });
+  } catch (err) {
+    console.error("Error during toggling star:", err.message);
+    res.status(500).send("Server error!");
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -166,4 +197,5 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   deleteUserProfile,
+  toggleStar,
 };

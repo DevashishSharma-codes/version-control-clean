@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./RepoDetails.css";
 import TechStackChart from "../TechStackChart/TechStackChart";
-import { SparklesIcon, ClockIcon, ChevronDown } from "lucide-react";
+import { SparklesIcon, ClockIcon, ChevronDown, Star } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "../../authContext";
 
 // A simple Badge component for displaying status
 function Badge({ children, variant = "default", className = "" }) {
@@ -228,6 +229,10 @@ const RepoDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedFileId, setExpandedFileId] = useState(null);
+  
+  const { currentUser } = useAuth();
+  const [isStarred, setIsStarred] = useState(false);
+  const [togglingStar, setTogglingStar] = useState(false);
 
   useEffect(() => {
     const fetchRepo = async () => {
@@ -247,6 +252,45 @@ const RepoDetails = () => {
     };
     fetchRepo();
   }, [id]);
+
+  useEffect(() => {
+    const checkStarStatus = async () => {
+      if (!currentUser?._id || !repo) return;
+      try {
+        const res = await fetch(`http://localhost:3000/userProfile/${currentUser._id}`);
+        if (res.ok) {
+          const userData = await res.json();
+          // starRepos is populated, so it contains objects with _id
+          const hasStarred = userData.starRepos?.some(r => r._id === id || r === id);
+          setIsStarred(!!hasStarred);
+        }
+      } catch (err) {
+        console.error("Error checking star status", err);
+      }
+    };
+    checkStarStatus();
+  }, [repo, currentUser, id]);
+
+  const handleStarToggle = async () => {
+    if (!currentUser?._id) return alert("Please log in to star repositories!");
+    setTogglingStar(true);
+    try {
+      const res = await fetch(`http://localhost:3000/userProfile/${currentUser._id}/star`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repoId: id })
+      });
+      if (res.ok) {
+        setIsStarred(!isStarred);
+      } else {
+        alert("Failed to toggle star.");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setTogglingStar(false);
+    }
+  };
 
   const handleToggleReview = (fileId) => {
     setExpandedFileId(expandedFileId === fileId ? null : fileId);
@@ -280,7 +324,18 @@ const RepoDetails = () => {
             )}
           </div>
           <div className="repo-info-card">
-            <h2 className="repo-title">{repo.name}</h2>
+            <div className="repo-title-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+              <h2 className="repo-title" style={{ margin: 0 }}>{repo.name}</h2>
+              <button 
+                onClick={handleStarToggle} 
+                className="star-toggle-btn"
+                disabled={togglingStar}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ffc107', display: 'flex', alignItems: 'center', gap: '5px' }}
+              >
+                <Star size={24} fill={isStarred ? "#ffc107" : "none"} stroke="#ffc107" />
+                <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{isStarred ? "Starred" : "Star"}</span>
+              </button>
+            </div>
             <p className="repo-description">{repo.description}</p>
             <p className="repo-owner">
               Created by: <strong>{repo.owner?.username || "Unknown"}</strong>

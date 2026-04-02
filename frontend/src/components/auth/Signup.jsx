@@ -62,7 +62,7 @@ export default function Signup() {
           localStorage.setItem('userId', res.data.userId);
           localStorage.setItem("username", res.data.username);
 
-          setCurrentUser(res.data.userId);
+          setCurrentUser({ _id: res.data.userId });
           setCurrentUsername(res.data.username);  // Update username state here
 
           navigate('/'); // SPA navigation to dashboard or home page

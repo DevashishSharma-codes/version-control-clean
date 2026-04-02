@@ -10,6 +10,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [contributions, setContributions] = useState([]);
+  const [starRepos, setStarRepos] = useState([]);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("overview");
 
   const username = localStorage.getItem("username") || "VCTRL User";
 
@@ -19,17 +22,24 @@ const Profile = () => {
         if (!currentUser?._id) return;
         
         // Use currentUser._id directly since it's an object now
-        const res = await axios.get(`/repo/contributions/${currentUser._id}`);
+        const [contribRes, profileRes] = await Promise.all([
+          axios.get(`http://localhost:3000/repo/contributions/${currentUser._id}`),
+          axios.get(`http://localhost:3000/userProfile/${currentUser._id}`)
+        ]);
         
-        console.log("Fetched contributions response:", res.data);
+        console.log("Fetched contributions response:", contribRes.data);
 
         // ✅ FIX: The API now returns a direct array.
         // Use `res.data || []` to ensure we always have an array.
-        setContributions(res.data || []); 
+        setContributions(contribRes.data || []); 
+        setStarRepos(profileRes.data?.starRepos || []);
 
       } catch (err) {
-        console.error("Error fetching contributions:", err);
+        console.error("Error fetching data:", err);
         setContributions([]); // On error, set to an empty array to prevent crashes
+        setStarRepos([]);
+      } finally {
+        setProfileLoading(false);
       }
     };
 
@@ -41,13 +51,17 @@ const Profile = () => {
       <Navbar />
       <div className="profile-tab-nav">
         {/* ... buttons ... */}
-        <button className="profile-tab-btn active" type="button">
+        <button 
+          className={`profile-tab-btn ${activeTab === 'overview' ? 'active' : ''}`} 
+          type="button" 
+          onClick={() => setActiveTab('overview')}
+        >
           Overview
         </button>
         <button
-          className="profile-tab-btn"
+          className={`profile-tab-btn ${activeTab === 'starred' ? 'active' : ''}`}
           type="button"
-          onClick={() => navigate("/repo")}
+          onClick={() => setActiveTab('starred')}
         >
           Starred Repositories
         </button>
@@ -71,8 +85,33 @@ const Profile = () => {
             <span>0 Following</span>
           </div>
         </div>
-        <div className="heat-map-section glass-card">
-          <HeatMapProfile contributions={contributions} />
+        <div className="tab-content" style={{ padding: '20px', width: '100%', maxWidth: '800px' }}>
+          {activeTab === "overview" && (
+            <div className="heat-map-section glass-card">
+              <HeatMapProfile contributions={contributions} />
+            </div>
+          )}
+          {activeTab === "starred" && (
+            <div className="starred-repos-section glass-card" style={{ padding: '20px' }}>
+              <h3 style={{ marginBottom: '20px', color: 'white' }}>Starred Repositories ({starRepos.length})</h3>
+              {profileLoading ? (
+                <p>Loading starred repositories...</p>
+              ) : starRepos.length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  {starRepos.map(repo => (
+                    <div key={repo._id} style={{ padding: '15px', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', background: 'rgba(0,0,0,0.3)' }}>
+                      <h4 style={{ cursor: 'pointer', margin: '0 0 10px 0', color: '#58a6ff' }} onClick={() => navigate(`/repo/${repo._id}`)}>
+                        {repo.name} ⭐️
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '14px', color: '#c9d1d9' }}>{repo.description || "No description provided."}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p style={{ color: '#8b949e' }}>You haven't starred any repositories yet.</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

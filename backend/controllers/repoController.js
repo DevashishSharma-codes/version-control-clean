@@ -26,12 +26,10 @@ async function getDownloadUrl(storagePath, filename) {
   const { data, error } = await supabase
     .storage
     .from(SUPABASE_BUCKET_NAME)
-    .createSignedUrl(storagePath, 3600);
+    .createSignedUrl(storagePath, 3600, { download: filename });
   if (error) throw error;
-
-  // Append content-disposition header to force download with correct filename
-  const downloadUrl = `${data.signedUrl}&response-content-disposition=attachment%3B%20filename="${encodeURIComponent(filename)}"`;
-  return downloadUrl;
+  
+  return data.signedUrl;
 }
 
 // Utility to get AI review for file
@@ -117,6 +115,9 @@ async function createRepository(req, res) {
       repositoryID: result._id.toString(),
     });
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ error: "A repository with this name already exists." });
+    }
     console.error("Error during repository creation:", err);
     res.status(500).json({ error: "Server error during repository creation." });
   }

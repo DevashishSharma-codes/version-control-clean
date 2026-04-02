@@ -54,7 +54,7 @@ export default function Login() {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('userId', res.data.userId);
           localStorage.setItem("username", res.data.username);
-          setCurrentUser(res.data.userId);
+          setCurrentUser({ _id: res.data.userId });
           navigate('/'); 
         } else {
           setErrors({ api: "Login failed: Incomplete response from server." });
