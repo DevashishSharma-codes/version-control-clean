@@ -4,12 +4,12 @@ async function testFetch() {
   const formData = new FormData();
   formData.append('name', 'TestRepo3');
   formData.append('owner', '65f4c541b5161d7b1a201c10');
-  
+
   const fileBlob = new Blob([fs.readFileSync('package.json')], { type: 'application/json' });
   formData.append('files', fileBlob, 'package.json');
 
   try {
-    const res = await fetch("http://localhost:3000/repo/create", {
+    const res = await fetch("https://version-control-backend-ssgn.onrender.com/repo/create", {
       method: "POST",
       body: formData
     });
