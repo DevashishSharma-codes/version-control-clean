@@ -101,20 +101,23 @@ body {
   flex: 1;
   align-items: center;
   justify-content: center;
-  position: relative;  /* Important for .form-content & .cat-roamer positioning */
+  position: relative;
+  /* Important for .form-content & .cat-roamer positioning */
 }
 
 .form-content {
   width: 100%;
   max-width: 20rem;
-  position: relative; /* For absolute position of .cat-roamer */
+  position: relative;
+  /* For absolute position of .cat-roamer */
 }
 
 .form-title {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  text-align: center; /* Centered */
+  text-align: center;
+  /* Centered */
 }
 
 .form-description {
@@ -258,7 +261,8 @@ body {
   position: relative;
   width: 100%;
   max-width: 20rem;
-  cursor: none; /* Hides default pointer inside form area */
+  cursor: none;
+  /* Hides default pointer inside form area */
 }
 
 
@@ -274,7 +278,7 @@ body {
   font-family: inherit;
   font-weight: 500;
   box-shadow: 0 2px 12px 0 #18181b80;
-  transition: 
+  transition:
     background 0.25s,
     color 0.15s,
     box-shadow 0.25s;
@@ -290,11 +294,12 @@ body {
   color: #fff;
   box-shadow: 0 2px 24px 0 #1a133970;
 }
+
 /* Unique for Signup */
 .signup-form-unique-bg {
   background: linear-gradient(120deg, #232526 0%, #673AB7 100%);
   border-radius: 2rem;
-  box-shadow: 0 10px 40px 0 rgba(52,10,86,0.17);
+  box-shadow: 0 10px 40px 0 rgba(52, 10, 86, 0.17);
   padding: 2.75rem 2.1rem 2.8rem 2.1rem;
 }
 
@@ -313,28 +318,35 @@ body {
   margin-top: 1.2rem;
   transition: background 0.28s, box-shadow 0.2s;
 }
+
 .signup-page .submit-button:hover {
   background: linear-gradient(85deg, #0e3a35 0%, #8a34eb 100%);
   box-shadow: 0 0 40px 0 #12e0cb40;
 }
+
 .signup-page .terms-text {
-  color: #ccccff; /* lighter, soft purple-ish */
+  color: #ccccff;
+  /* lighter, soft purple-ish */
   font-size: 0.875rem;
   line-height: 1.4;
   text-align: center;
   margin-top: 1.5rem;
   text-shadow: 0 0 5px rgba(100, 80, 150, 0.5);
 }
+
 .signup-page .terms-text a {
-  color: #a78bfa; /* brighter purple for links */
+  color: #a78bfa;
+  /* brighter purple for links */
   text-decoration: underline;
 }
 
 .signup-page .terms-text a:hover,
 .signup-page .terms-text a:focus {
-  color: #c4b5fd; /* even lighter on hover */
+  color: #c4b5fd;
+  /* even lighter on hover */
   outline: none;
 }
+
 .field-error {
   color: #ff8383;
   font-size: 0.86em;
@@ -342,4 +354,60 @@ body {
   display: block;
   letter-spacing: 0.01em;
   font-weight: 500;
+}
+
+.submit-button.loading,
+.secondary-button:disabled,
+.submit-button:disabled,
+.input-group input:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.btn-loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-top: 2px solid #60e7db;
+  border-right: 2px solid #a68cff;
+  animation: vctrlSpin 0.8s linear infinite;
+  box-shadow: 0 0 10px rgba(96, 231, 219, 0.25);
+}
+
+.spinner.small {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+}
+
+.auth-status-pill {
+  margin-top: 0.85rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #e9e4ff;
+  background: rgba(24, 18, 48, 0.72);
+  border: 1px solid rgba(166, 140, 255, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(96, 231, 219, 0.08) inset,
+    0 8px 24px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+}
+
+@keyframes vctrlSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }

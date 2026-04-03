@@ -16,8 +16,8 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Valid email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const validate = () => {
@@ -44,25 +44,32 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      try {
-        const res = await axios.post('https://version-control-backend-ssgn.onrender.com/login', {
-          email: email,
-          password: password,
-        });
-        if (res.data && res.data.token && res.data.userId) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('userId', res.data.userId);
-          localStorage.setItem("username", res.data.username);
-          setCurrentUser({ _id: res.data.userId });
-          navigate('/');
-        } else {
-          setErrors({ api: "Login failed: Incomplete response from server." });
-        }
-      } catch (error) {
-        const apiError = error?.response?.data?.message || 'Login failed. Please check your credentials.';
-        setErrors({ api: apiError });
+    if (!validate()) return;
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const res = await axios.post('https://version-control-backend-ssgn.onrender.com/login', {
+        email,
+        password,
+      });
+
+      if (res.data && res.data.token && res.data.userId) {
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.userId);
+        localStorage.setItem('username', res.data.username);
+        setCurrentUser({ _id: res.data.userId });
+        navigate('/');
+      } else {
+        setErrors({ api: 'Login failed: Incomplete response from server.' });
       }
+    } catch (error) {
+      const apiError =
+        error?.response?.data?.message || 'Login failed. Please check your credentials.';
+      setErrors({ api: apiError });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +82,6 @@ export default function Login() {
       <div className="signup-container">
         <div className="header-section">
           <a href="#" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-            {/* Modern cosmic logo SVG */}
             <span style={{ display: 'inline-block', width: '2.3rem', height: '2.3rem' }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/128/41/41993.png"
@@ -83,39 +89,38 @@ export default function Login() {
                 className="navbar-logo-img"
               />
             </span>
-            <span style={{
-              fontSize: '2rem',
-              fontWeight: 800,
-              fontFamily: 'monospace',
-              letterSpacing: '0.09em',
-              background: 'linear-gradient(90deg,#d9d4ff,#a68cff 80%,#60e7db 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
+            <span
+              style={{
+                fontSize: '2rem',
+                fontWeight: 800,
+                fontFamily: 'monospace',
+                letterSpacing: '0.09em',
+                background: 'linear-gradient(90deg,#d9d4ff,#a68cff 80%,#60e7db 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               VCTRL
             </span>
           </a>
         </div>
+
         <div className="form-wrapper">
           <div
             className="form-content"
             ref={formRef}
             onMouseMove={handleFormMouseMove}
-            style={{ cursor: 'none' }}
+            style={{ cursor: isLoading ? 'wait' : 'none' }}
           >
             <div className="cat-roamer" ref={catContainerRef}>
               <div className="cat-lottie">
-                <Lottie
-                  animationData={catAnimation}
-                  loop={true}
-                  style={{ width: 500, height: 200 }}
-                />
+                <Lottie animationData={catAnimation} loop={true} style={{ width: 500, height: 200 }} />
               </div>
             </div>
+
             <h1 className="form-title">Login to your account</h1>
-            <p className="form-description">
-              Enter your email and password to log in
-            </p>
+            <p className="form-description">Enter your email and password to log in</p>
+
             <form className="form" autoComplete="off" onSubmit={handleSubmit}>
               <div className="input-group">
                 <label htmlFor="email">Email</label>
@@ -124,10 +129,12 @@ export default function Login() {
                   id="email"
                   autoComplete="off"
                   value={email}
+                  disabled={isLoading}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {errors.email && <span className="field-error">{errors.email}</span>}
               </div>
+
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
@@ -135,28 +142,50 @@ export default function Login() {
                   id="password"
                   autoComplete="off"
                   value={password}
+                  disabled={isLoading}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {errors.password && <span className="field-error">{errors.password}</span>}
               </div>
+
               {errors.api && (
-                <span className="field-error" style={{ marginTop: '0.7rem' }}>{errors.api}</span>
+                <span className="field-error" style={{ marginTop: '0.7rem' }}>
+                  {errors.api}
+                </span>
               )}
-              <button className="submit-button" type="submit">
-                Log in
+
+              <button className={`submit-button ${isLoading ? 'loading' : ''}`} type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <span className="btn-loading-content">
+                    <span className="spinner"></span>
+                    Logging in...
+                  </span>
+                ) : (
+                  'Log in'
+                )}
               </button>
+
+              {isLoading && (
+                <div className="auth-status-pill">
+                  <span className="spinner small"></span>
+                  Authenticating your account...
+                </div>
+              )}
+
               <button
                 className="secondary-button"
                 type="button"
                 onClick={handleSignUpClick}
+                disabled={isLoading}
               >
                 Don't have an account? Sign up
               </button>
             </form>
+
             <div className="divider-text"></div>
             <p className="terms-text">
-              By logging in, you agree to our{' '}
-              <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+              By logging in, you agree to our <a href="#">Terms of Service</a> and{' '}
+              <a href="#">Privacy Policy</a>
             </p>
           </div>
         </div>

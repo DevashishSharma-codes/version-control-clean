@@ -11,18 +11,16 @@ export default function Signup() {
   const catContainerRef = useRef(null);
   const formRef = useRef(null);
   const navigate = useNavigate();
-  const { setCurrentUser, setCurrentUsername } = useAuth(); // Ensure setCurrentUsername is added in context
+  const { setCurrentUser, setCurrentUsername } = useAuth();
 
-  // Validation states
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Validation handler
   const validate = () => {
     const newErrors = {};
     if (!username.trim()) newErrors.username = 'Username is required.';
@@ -33,7 +31,6 @@ export default function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Animated cat follows cursor
   const handleFormMouseMove = (event) => {
     if (!catContainerRef.current || !formRef.current) return;
     const formRect = formRef.current.getBoundingClientRect();
@@ -47,34 +44,38 @@ export default function Signup() {
     });
   };
 
-  // Submission handler with navigate (SPA)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      try {
-        const res = await axios.post("https://version-control-backend-ssgn.onrender.com/signup", {
-          username: username,
-          email: email,
-          password: password,
-        });
-        if (res.data && res.data.token && res.data.userId && res.data.username) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('userId', res.data.userId);
-          localStorage.setItem("username", res.data.username);
+    if (!validate()) return;
 
-          setCurrentUser({ _id: res.data.userId });
-          setCurrentUsername(res.data.username);  // Update username state here
+    setIsLoading(true);
+    setErrors({});
 
-          navigate('/'); // SPA navigation to dashboard or home page
-        } else {
-          alert("Signup failed: Incomplete response from server.");
-        }
-      } catch (error) {
-        let apiError = "Error during signup.";
-        if (error.response?.data?.message) apiError = error.response.data.message;
-        alert(apiError);
-        console.error('Error during signup:', error);
+    try {
+      const res = await axios.post('https://version-control-backend-ssgn.onrender.com/signup', {
+        username,
+        email,
+        password,
+      });
+
+      if (res.data && res.data.token && res.data.userId && res.data.username) {
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.userId);
+        localStorage.setItem('username', res.data.username);
+
+        setCurrentUser({ _id: res.data.userId });
+        setCurrentUsername(res.data.username);
+
+        navigate('/');
+      } else {
+        setErrors({ api: 'Signup failed: Incomplete response from server.' });
       }
+    } catch (error) {
+      const apiError = error?.response?.data?.message || 'Error during signup.';
+      setErrors({ api: apiError });
+      console.error('Error during signup:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -94,39 +95,40 @@ export default function Signup() {
                 className="navbar-logo-img"
               />
             </span>
-            <span style={{
-              fontSize: '2rem',
-              fontWeight: 800,
-              fontFamily: 'monospace',
-              letterSpacing: '0.09em',
-              background: 'linear-gradient(90deg,#d9d4ff,#a68cff 80%,#60e7db 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
+            <span
+              style={{
+                fontSize: '2rem',
+                fontWeight: 800,
+                fontFamily: 'monospace',
+                letterSpacing: '0.09em',
+                background: 'linear-gradient(90deg,#d9d4ff,#a68cff 80%,#60e7db 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               VCTRL
             </span>
           </a>
         </div>
+
         <div className="form-wrapper signup-form-unique-bg">
           <div
             className="form-content"
             ref={formRef}
             onMouseMove={handleFormMouseMove}
-            style={{ cursor: 'none' }}
+            style={{ cursor: isLoading ? 'wait' : 'none' }}
           >
             <div className="cat-roamer" ref={catContainerRef}>
               <div className="cat-lottie">
-                <Lottie
-                  animationData={catAnimation}
-                  loop={true}
-                  style={{ width: 500, height: 200 }}
-                />
+                <Lottie animationData={catAnimation} loop={true} style={{ width: 500, height: 200 }} />
               </div>
             </div>
+
             <h1 className="form-title">Create an account</h1>
             <p className="form-description">
               Enter your username, email, and password to create your account
             </p>
+
             <form className="form" autoComplete="off" onSubmit={handleSubmit}>
               <div className="input-group">
                 <label htmlFor="username">Username</label>
@@ -135,10 +137,12 @@ export default function Signup() {
                   id="username"
                   autoComplete="off"
                   value={username}
+                  disabled={isLoading}
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 {errors.username && <span className="field-error">{errors.username}</span>}
               </div>
+
               <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -146,10 +150,12 @@ export default function Signup() {
                   id="email"
                   autoComplete="off"
                   value={email}
+                  disabled={isLoading}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {errors.email && <span className="field-error">{errors.email}</span>}
               </div>
+
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
@@ -157,25 +163,46 @@ export default function Signup() {
                   id="password"
                   autoComplete="off"
                   value={password}
+                  disabled={isLoading}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {errors.password && <span className="field-error">{errors.password}</span>}
               </div>
-              <button className="submit-button" type="submit">
-                Sign up with Email
+
+              {errors.api && <span className="field-error">{errors.api}</span>}
+
+              <button className={`submit-button ${isLoading ? 'loading' : ''}`} type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <span className="btn-loading-content">
+                    <span className="spinner"></span>
+                    Creating account...
+                  </span>
+                ) : (
+                  'Sign up with Email'
+                )}
               </button>
+
+              {isLoading && (
+                <div className="auth-status-pill">
+                  <span className="spinner small"></span>
+                  Setting up your workspace...
+                </div>
+              )}
+
               <button
                 className="secondary-button"
                 type="button"
                 onClick={handleSignUpClick}
+                disabled={isLoading}
               >
                 Already have an account? Log in
               </button>
             </form>
+
             <div className="divider-text"></div>
             <p className="terms-text">
-              By clicking continue, you agree to our{' '}
-              <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+              By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
+              <a href="#">Privacy Policy</a>
             </p>
           </div>
         </div>
