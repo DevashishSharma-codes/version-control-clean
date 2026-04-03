@@ -32,10 +32,12 @@ export default function Signup() {
   };
 
   const handleFormMouseMove = (event) => {
-    if (!catContainerRef.current || !formRef.current) return;
+    if (!catContainerRef.current || !formRef.current || window.innerWidth < 768) return;
+
     const formRect = formRef.current.getBoundingClientRect();
-    const cursorX = event.clientX - formRect.left - 150;
-    const cursorY = event.clientY - formRect.top - 100;
+    const cursorX = event.clientX - formRect.left - 120;
+    const cursorY = event.clientY - formRect.top - 70;
+
     gsap.to(catContainerRef.current, {
       x: cursorX,
       y: cursorY,
@@ -87,7 +89,11 @@ export default function Signup() {
     <div className="signup-page">
       <div className="signup-container">
         <div className="header-section">
-          <a href="#" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+          <a
+            href="#"
+            className="header-logo"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}
+          >
             <span style={{ display: 'inline-block', width: '2.3rem', height: '2.3rem' }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/128/41/41993.png"
@@ -116,11 +122,15 @@ export default function Signup() {
             className="form-content"
             ref={formRef}
             onMouseMove={handleFormMouseMove}
-            style={{ cursor: isLoading ? 'wait' : 'none' }}
+            style={{ cursor: isLoading ? 'wait' : undefined }}
           >
             <div className="cat-roamer" ref={catContainerRef}>
               <div className="cat-lottie">
-                <Lottie animationData={catAnimation} loop={true} style={{ width: 500, height: 200 }} />
+                <Lottie
+                  animationData={catAnimation}
+                  loop={true}
+                  style={{ width: '100%', height: '100%' }}
+                />
               </div>
             </div>
 
@@ -169,9 +179,15 @@ export default function Signup() {
                 {errors.password && <span className="field-error">{errors.password}</span>}
               </div>
 
-              {errors.api && <span className="field-error">{errors.api}</span>}
+              {errors.api && (
+                <span className="field-error api-error">{errors.api}</span>
+              )}
 
-              <button className={`submit-button ${isLoading ? 'loading' : ''}`} type="submit" disabled={isLoading}>
+              <button
+                className={`submit-button ${isLoading ? 'loading' : ''}`}
+                type="submit"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <span className="btn-loading-content">
                     <span className="spinner"></span>
@@ -200,9 +216,10 @@ export default function Signup() {
             </form>
 
             <div className="divider-text"></div>
+
             <p className="terms-text">
-              By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
-              <a href="#">Privacy Policy</a>
+              By clicking continue, you agree to our{' '}
+              <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
             </p>
           </div>
         </div>
