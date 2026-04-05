@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
+const redisClient = require("../config/redis");
 
 // Signup
 async function signup(req, res) {
@@ -70,6 +71,37 @@ async function login(req, res) {
     return res.json({ token, userId: user._id, username: user.username });
   } catch (err) {
     console.error("Error during login:", err.message);
+    return res.status(500).send("Server error!");
+  }
+}
+
+// Logout
+async function logout(req, res) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(400).json({ message: "No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.decode(token);
+    if (!decoded || !decoded.exp) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    // Calculate remaining time for the token to expire
+    const currentTime = Math.floor(Date.now() / 1000);
+    const timeToExpire = decoded.exp - currentTime;
+
+    if (timeToExpire > 0) {
+      // Add token to Redis blacklist with expiration matching the remaining TTL
+      await redisClient.setEx(`bl_${token}`, timeToExpire, "blacklisted");
+    }
+
+    return res.json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.error("Error during logout:", err.message);
     return res.status(500).send("Server error!");
   }
 }
@@ -193,6 +225,7 @@ async function toggleStar(req, res) {
 module.exports = {
   signup,
   login,
+  logout,
   getAllUsers,
   getUserProfile,
   updateUserProfile,

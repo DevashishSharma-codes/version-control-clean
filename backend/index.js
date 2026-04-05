@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const mainRouter = require('./routes/main.router');
+require('./config/redis'); // Initialize Redis
 
 function startServer() {
   const app = express();

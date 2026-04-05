@@ -28,12 +28,27 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("username");
-    setCurrentUser(null);
-    setCurrentUsername(null);
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await fetch("https://version-control-backend-ssgn.onrender.com/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Failed to logout on backend:", error);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("username");
+      setCurrentUser(null);
+      setCurrentUsername(null);
+    }
   };
 
   const value = {
