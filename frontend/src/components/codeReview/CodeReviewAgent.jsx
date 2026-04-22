@@ -58,7 +58,7 @@ export default function CodeReviewAgent() {
 
   const MIN_HEIGHT = 52;
   const MAX_HEIGHT = 250;
-  
+
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({
     minHeight: MIN_HEIGHT,
     maxHeight: MAX_HEIGHT,
@@ -66,7 +66,7 @@ export default function CodeReviewAgent() {
 
   const handleReview = async () => {
     if (!codeContent.trim()) return;
-    
+
     setError("");
     setReview("");
     setIsLoading(true);
@@ -103,38 +103,38 @@ export default function CodeReviewAgent() {
     };
 
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    
-    // The API URL now points to our local Vite proxy
-    const apiUrl = `/gemini/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Server responded with status: ${response.status}. ${errorText}`);
-        }
-        
-        const result = await response.json();
-        const reviewText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server responded with status: ${response.status}. ${errorText}`);
+      }
 
-        if (reviewText) {
-            setReview(reviewText);
-            setCodeContent("");
-            adjustHeight(true);
-        } else {
-            console.error("Unexpected API response structure:", result);
-            setError("The AI returned an unexpected response. Please try again.");
-        }
+      const result = await response.json();
+      const reviewText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (reviewText) {
+        setReview(reviewText);
+        setCodeContent("");
+        adjustHeight(true);
+      } else {
+        console.error("Unexpected API response structure:");
+        setError("The AI returned an unexpected response. Please try again.");
+      }
     } catch (e) {
-        console.error("Failed to fetch from proxy:", e);
-        setError("An error occurred while fetching the review. Check the console for details.");
+      console.error("Failed to fetch from proxy:");
+      setError("An error occurred while fetching the review.");
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -149,19 +149,19 @@ export default function CodeReviewAgent() {
     setCodeContent(e.target.value);
     adjustHeight();
   };
-  
+
   return (
     <>
       <Navbar />
       <section className="agent-page-container">
         <header className="agent-header">
-          
-           <h2>
-             AI Code Quality  <span className="dash-username">Agent !</span>
-            </h2>
-            <p className="dashboard-header-sub">
-              Review Your Code: Get instant feedback on code quality, best practices, and potential bugs.
-            </p>
+
+          <h2>
+            AI Code Quality  <span className="dash-username">Agent !</span>
+          </h2>
+          <p className="dashboard-header-sub">
+            Review Your Code: Get instant feedback on code quality, best practices, and potential bugs.
+          </p>
         </header>
 
         <div className="agent-input-wrapper">
@@ -194,19 +194,19 @@ export default function CodeReviewAgent() {
         </div>
 
         <div className="agent-results-container">
-            {error && (
-                 <div className="result-card error-card">
-                    <XCircle size={20} />
-                    <p>{error}</p>
-                 </div>
-            )}
-            {review && (
-                <div className="result-card">
-                    <div className="review-output-formatted">
-                      <ReactMarkdown>{review}</ReactMarkdown>
-                    </div>
-                </div>
-            )}
+          {error && (
+            <div className="result-card error-card">
+              <XCircle size={20} />
+              <p>{error}</p>
+            </div>
+          )}
+          {review && (
+            <div className="result-card">
+              <div className="review-output-formatted">
+                <ReactMarkdown>{review}</ReactMarkdown>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </>
